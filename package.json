@@ -25,29 +25,5 @@
     "jsdom-global": "3.0.2",
     "mocha": "^7.1.2"
   },
-  "dependencies": {},
-  "jspm": {
-    "format": "global",
-    "shim": {
-      "nprogress": {
-        "deps": [
-          "./nprogress.css!"
-        ]
-      }
-    },
-    "dependencies": {
-      "css": "*"
-    }
-  },
-  "spm": {
-    "main": "nprogress.js",
-    "output": [
-      "nprogress.css"
-    ],
-    "ignore": [
-      "support",
-      "test",
-      "vendor"
-    ]
-  }
+  "dependencies": {}
 }
