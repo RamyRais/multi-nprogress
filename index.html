@@ -10,7 +10,6 @@
   <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,700,400italic' rel='stylesheet' type='text/css'>
   
   <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-  <script src='nprogress.js'></script>
 </head>
 
 <body style='display: none'>
@@ -71,9 +70,12 @@
     </div>
   </div>
 
-  <script>
+  <script type="module">
+    // Import the ES module
+    import NProgressModule from './nprogress.js';
+    
     $('body').show();
-    var progressBar = NProgress();
+    var progressBar = NProgressModule();
     $('.version').text(progressBar.version);
     progressBar.start();
     setTimeout(function() { progressBar.done(); $('.fade').removeClass('out'); }, 1000);
