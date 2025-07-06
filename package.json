@@ -1,29 +1,51 @@
 {
   "name": "multi-nprogress",
-  "author": "Ramy Rais",
-  "contributors": [
-    {
-      "name": "Rico Sta. Cruz",
-      "email": "hi@ricostacruz.com"
-    }
-  ],
   "description": "Simple slim progress bars",
+  "author": "Ramy Rais",
   "version": "0.3.5",
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/RamyRais/multi-nprogress"
   },
+  "bugs": {
+    "url": "https://github.com/RamyRais/multi-nprogress/issues"
+  },
+  "type": "module",
+  "module": "dist/nprogress.js",
+  "main": "dist/nprogress.cjs",
+  "exports": {
+    ".": {
+      "import": "dist/nprogress.js",
+      "require": "dist/nprogress.cjs"
+    }
+  },
   "scripts": {
+    "build": "rollup -c",
     "test": "mocha"
   },
-  "main": "nprogress.js",
   "license": "MIT",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-node-resolve": "^16.0.1",
     "chai": "^5.2.0",
     "jquery": "^3.7.1",
     "jsdom": "^26.1.0",
     "jsdom-global": "^3.0.2",
-    "mocha": "^11.7.0"
-  }
+    "mocha": "^11.7.0",
+    "rollup": "^4.44.2"
+  },
+  "keywords": [
+    "progress",
+    "ui",
+    "loader",
+    "bar",
+    "frontend"
+  ],
+  "files": [
+    "dist/nprogress.js",
+    "dist/nprogress.cjs",
+    "nprogress.css",
+    "README.md",
+    "LICENSE.md"
+  ]
 }
