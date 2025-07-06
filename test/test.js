@@ -1,7 +1,7 @@
 import { JSDOM } from 'jsdom';
 import { assert } from 'chai';
 import jQuery from 'jquery';
-import NProgressModule from '../nprogress.js';
+import NProgressModule from '../src/nprogress.js';
 
 // Set up JSDOM with all necessary DOM APIs
 const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', {
