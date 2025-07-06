@@ -10,7 +10,6 @@
   <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,700,400italic' rel='stylesheet' type='text/css'>
   
   <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-  <script src='nprogress.js'></script>
 </head>
 
 <body style='display: none'>
@@ -59,7 +58,6 @@
         Download
         v<span class='version'></span>
       </a>
-      <p class='brief'>Perfect for Turbolinks, Pjax, and other Ajax-heavy apps.</p>
       <p class='brief'>This library is based on <a href="https://github.com/rstacruz/nprogress">nprogress</a> of rstacruz</p>
     </div>
     <div class='hr-rule'></div>
@@ -71,9 +69,12 @@
     </div>
   </div>
 
-  <script>
+  <script type="module">
+    // Import the ES module
+    import NProgressModule from './src/nprogress.js';
+    
     $('body').show();
-    var progressBar = NProgress();
+    var progressBar = NProgressModule();
     $('.version').text(progressBar.version);
     progressBar.start();
     setTimeout(function() { progressBar.done(); $('.fade').removeClass('out'); }, 1000);

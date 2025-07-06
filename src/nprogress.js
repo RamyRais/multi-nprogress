@@ -1,18 +1,9 @@
 /* NProgress, (c) 2013, 2014 Rico Sta. Cruz - http://ricostacruz.com/nprogress
  * @license MIT */
 
-;(function(root, factory) {
+export default function NProgressModule() {
 
-  if (typeof define === 'function' && define.amd) {
-    define(function() {return factory});
-  } else if (typeof exports === 'object') {
-    module.exports = factory;
-  } else {
-    root.NProgress = factory;
-  }
-
-})(this, function() {
-  var NProgress = {};
+  const NProgress = {};
 
   NProgress.version = '0.3.5';
 
@@ -37,7 +28,7 @@
    *       minimum: 0.1
    *     });
    */
-  NProgress.configure = function(options) {
+  NProgress.configure = function (options) {
     var key, value;
     for (key in options) {
       value = options[key];
@@ -60,20 +51,20 @@
    *     NProgress.set(1.0);
    */
 
-  NProgress.set = function(n) {
+  NProgress.set = function (n) {
     var started = NProgress.isStarted();
 
     n = clamp(n, Settings.minimum, 1);
     NProgress.status = (n === 1 ? null : n);
 
     var progress = NProgress.render(!started),
-        bar      = progress.querySelector(Settings.barSelector),
-        speed    = Settings.speed,
-        ease     = Settings.easing;
+      bar = progress.querySelector(Settings.barSelector),
+      speed = Settings.speed,
+      ease = Settings.easing;
 
     progress.offsetWidth; /* Repaint */
 
-    queue(function(next) {
+    queue(function (next) {
       // Set positionUsing if it hasn't already been set
       if (Settings.positionUsing === '') Settings.positionUsing = NProgress.getPositioningCSS();
 
@@ -88,12 +79,12 @@
         });
         progress.offsetWidth; /* Repaint */
 
-        setTimeout(function() {
+        setTimeout(function () {
           css(progress, {
             transition: 'all ' + speed + 'ms linear',
             opacity: 0
           });
-          setTimeout(function() {
+          setTimeout(function () {
             NProgress.remove();
             next();
           }, speed);
@@ -106,7 +97,7 @@
     return this;
   };
 
-  NProgress.isStarted = function() {
+  NProgress.isStarted = function () {
     return typeof NProgress.status === 'number';
   };
 
@@ -117,11 +108,11 @@
    *     NProgress.start();
    *
    */
-  NProgress.start = function() {
+  NProgress.start = function () {
     if (!NProgress.status) NProgress.set(0);
 
-    var work = function() {
-      setTimeout(function() {
+    var work = function () {
+      setTimeout(function () {
         if (!NProgress.status) return;
         NProgress.trickle();
         work();
@@ -145,7 +136,7 @@
    *     NProgress.done(true);
    */
 
-  NProgress.done = function(force) {
+  NProgress.done = function (force) {
     if (!force && !NProgress.status) return this;
 
     return NProgress.inc(0.3 + 0.5 * Math.random()).set(1);
@@ -155,12 +146,12 @@
    * Increments by a random amount.
    */
 
-  NProgress.inc = function(amount) {
+  NProgress.inc = function (amount) {
     var n = NProgress.status;
 
     if (!n) {
       return NProgress.start();
-    } else if(n > 1) {
+    } else if (n > 1) {
       return;
     } else {
       if (typeof amount !== 'number') {
@@ -176,7 +167,7 @@
     }
   };
 
-  NProgress.trickle = function() {
+  NProgress.trickle = function () {
     return NProgress.inc();
   };
 
@@ -186,10 +177,10 @@
    *
    * @param $promise jQUery Promise
    */
-  (function() {
+  (function () {
     var initial = 0, current = 0;
 
-    NProgress.promise = function($promise) {
+    NProgress.promise = function ($promise) {
       if (!$promise || $promise.state() === "resolved") {
         return this;
       }
@@ -201,13 +192,13 @@
       initial++;
       current++;
 
-      $promise.always(function() {
+      $promise.always(function () {
         current--;
         if (current === 0) {
-            initial = 0;
-            NProgress.done();
+          initial = 0;
+          NProgress.done();
         } else {
-            NProgress.set((initial - current) / initial);
+          NProgress.set((initial - current) / initial);
         }
       });
 
@@ -220,11 +211,11 @@
    * (Internal) get the rendered element
    */
 
-  NProgress.getElement = function() {
+  NProgress.getElement = function () {
     var parent = NProgress.getParent();
     // if the parent contains nested NProgress instances, select just the direct child
     if (parent) {
-      var elements = Array.prototype.slice.call(parent.querySelectorAll('.nprogress')).filter(function (p) { return p.parentElement === parent});
+      var elements = Array.prototype.slice.call(parent.querySelectorAll('.nprogress')).filter(function (p) { return p.parentElement === parent });
       if (elements.length > 0) {
         return elements[0];
       }
@@ -254,7 +245,7 @@
    * setting.
    */
 
-  NProgress.render = function(fromStart) {
+  NProgress.render = function (fromStart) {
     if (NProgress.isRendered()) return NProgress.getElement();
 
     addClass(document.documentElement, 'nprogress-busy');
@@ -264,10 +255,10 @@
     progress.className = 'nprogress';
     progress.innerHTML = Settings.template;
 
-    var bar      = progress.querySelector(Settings.barSelector),
-        perc     = fromStart ? '-100' : toBarPerc(NProgress.status || 0),
-        parent   = NProgress.getParent(),
-        spinner;
+    var bar = progress.querySelector(Settings.barSelector),
+      perc = fromStart ? '-100' : toBarPerc(NProgress.status || 0),
+      parent = NProgress.getParent(),
+      spinner;
 
     css(bar, {
       transition: 'all 0 linear',
@@ -291,7 +282,7 @@
    * Removes the element. Opposite of render().
    */
 
-  NProgress.remove = function() {
+  NProgress.remove = function () {
     NProgress.status = null;
     removeClass(document.documentElement, 'nprogress-busy');
     removeClass(NProgress.getParent(), 'nprogress-custom-parent');
@@ -303,7 +294,7 @@
    * Checks if the progress bar is rendered.
    */
 
-  NProgress.isRendered = function() {
+  NProgress.isRendered = function () {
     return !!NProgress.getElement();
   };
 
@@ -311,15 +302,15 @@
    * Determine which positioning CSS rule to use.
    */
 
-  NProgress.getPositioningCSS = function() {
+  NProgress.getPositioningCSS = function () {
     // Sniff on document.body.style
     var bodyStyle = document.body.style;
 
     // Sniff prefixes
     var vendorPrefix = ('WebkitTransform' in bodyStyle) ? 'Webkit' :
-                       ('MozTransform' in bodyStyle) ? 'Moz' :
-                       ('msTransform' in bodyStyle) ? 'ms' :
-                       ('OTransform' in bodyStyle) ? 'O' : '';
+      ('MozTransform' in bodyStyle) ? 'Moz' :
+        ('msTransform' in bodyStyle) ? 'ms' :
+          ('OTransform' in bodyStyle) ? 'O' : '';
 
     if (vendorPrefix + 'Perspective' in bodyStyle) {
       // Modern browsers with 3D support, e.g. Webkit, IE10
@@ -362,14 +353,14 @@
     var barCSS;
 
     if (Settings.positionUsing === 'translate3d') {
-      barCSS = { transform: 'translate3d('+toBarPerc(n)+'%,0,0)' };
+      barCSS = { transform: 'translate3d(' + toBarPerc(n) + '%,0,0)' };
     } else if (Settings.positionUsing === 'translate') {
-      barCSS = { transform: 'translate('+toBarPerc(n)+'%,0)' };
+      barCSS = { transform: 'translate(' + toBarPerc(n) + '%,0)' };
     } else {
-      barCSS = { 'margin-left': toBarPerc(n)+'%' };
+      barCSS = { 'margin-left': toBarPerc(n) + '%' };
     }
 
-    barCSS.transition = 'all '+speed+'ms '+ease;
+    barCSS.transition = 'all ' + speed + 'ms ' + ease;
 
     return barCSS;
   }
@@ -378,7 +369,7 @@
    * (Internal) Queues a function to be executed.
    */
 
-  var queue = (function() {
+  var queue = (function () {
     var pending = [];
 
     function next() {
@@ -388,7 +379,7 @@
       }
     }
 
-    return function(fn) {
+    return function (fn) {
       pending.push(fn);
       if (pending.length == 1) next();
     };
@@ -402,12 +393,12 @@
    * does not perform any manipulation of values prior to setting styles.
    */
 
-  var css = (function() {
-    var cssPrefixes = [ 'Webkit', 'O', 'Moz', 'ms' ],
-        cssProps    = {};
+  var css = (function () {
+    var cssPrefixes = ['Webkit', 'O', 'Moz', 'ms'],
+      cssProps = {};
 
     function camelCase(string) {
-      return string.replace(/^-ms-/, 'ms-').replace(/-([\da-z])/gi, function(match, letter) {
+      return string.replace(/^-ms-/, 'ms-').replace(/-([\da-z])/gi, function (match, letter) {
         return letter.toUpperCase();
       });
     }
@@ -417,8 +408,8 @@
       if (name in style) return name;
 
       var i = cssPrefixes.length,
-          capName = name.charAt(0).toUpperCase() + name.slice(1),
-          vendorName;
+        capName = name.charAt(0).toUpperCase() + name.slice(1),
+        vendorName;
       while (i--) {
         vendorName = cssPrefixes[i] + capName;
         if (vendorName in style) return vendorName;
@@ -437,10 +428,10 @@
       element.style[prop] = value;
     }
 
-    return function(element, properties) {
+    return function (element, properties) {
       var args = arguments,
-          prop,
-          value;
+        prop,
+        value;
 
       if (args.length == 2) {
         for (prop in properties) {
@@ -468,7 +459,7 @@
 
   function addClass(element, name) {
     var oldList = classList(element),
-        newList = oldList + name;
+      newList = oldList + name;
 
     if (hasClass(oldList, name)) return;
 
@@ -482,7 +473,7 @@
 
   function removeClass(element, name) {
     var oldList = classList(element),
-        newList;
+      newList;
 
     if (!hasClass(element, name)) return;
 
@@ -511,5 +502,5 @@
     element && element.parentNode && element.parentNode.removeChild(element);
   }
 
-  return NProgress;
-});
+  return NProgress
+}
